@@ -1,35 +1,36 @@
 ﻿using Plugin.BLE.Abstractions.EventArgs;
 
-namespace KS_Fit_Pro
+namespace KS_Fit_Pro.Source
 {
-    internal class BeltController
+    public class BeltController
     {
         BeltState currentBeltState;
 
-        public readonly BLEConnector _connector;
+        public readonly BLEConnector _bleConnector;
         private readonly BeltRequestReceiver _receiver;
 
-        public BeltController()
+        public BeltController(BLEConnector bleConnector, BeltRequestReceiver receiver)
         {
-            _connector = new BLEConnector(this);
-            _receiver = new BeltRequestReceiver();
+            _bleConnector = bleConnector;
+            _receiver = receiver;
+            //bleConnector.StatusCharacteristic.ValueUpdated += MessageReceived;
         }
 
         internal void MessageReceived(object sender, CharacteristicUpdatedEventArgs e)
         {
-            this.currentBeltState = _receiver.HandleReceivedMessage(e.Characteristic.Value);
+            currentBeltState = _receiver.GetBeltStateFromMessage(e.Characteristic.Value);
         }
 
         public async Task SetSpeed(int speed)
         {
             var message = BeltRequestHelper.GetEncodedMessage(EnBeltAction.CHANGE_SPEED, speed);
-            //await _connector.SendMessage(message);
+            await _bleConnector.SendMessage(message);
         }
 
         internal async Task Start()
         {
             var message = BeltRequestHelper.GetEncodedMessage(EnBeltAction.START, 1);
-            //await _connector.SendMessage(message);
+            await _bleConnector.SendMessage(message);
         }
     }
 }

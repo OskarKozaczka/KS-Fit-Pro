@@ -1,6 +1,6 @@
-﻿namespace KS_Fit_Pro
+﻿namespace KS_Fit_Pro.Source
 {
-    internal partial class BeltRequestHelper
+    internal static class BeltRequestHelper
     {
         static void AddChecksum(ref byte[] message)
         {

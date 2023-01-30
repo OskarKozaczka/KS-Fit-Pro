@@ -1,8 +1,8 @@
-﻿namespace KS_Fit_Pro
+﻿namespace KS_Fit_Pro.Source
 {
-    internal class BeltRequestReceiver
+    public class BeltRequestReceiver
     {
-        internal BeltState HandleReceivedMessage(byte[] message)
+        internal BeltState GetBeltStateFromMessage(byte[] message)
         {
             return new BeltState()
             {

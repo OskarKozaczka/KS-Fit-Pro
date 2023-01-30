@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<TabbedPage 
+    x:Class="KS_Fit_Pro.Pages.AppTabbedPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:KS_Fit_Pro.Pages"
+    xmlns:android="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.AndroidSpecific;assembly=Microsoft.Maui.Controls"
+    android:TabbedPage.ToolbarPlacement="Bottom">
+</TabbedPage>

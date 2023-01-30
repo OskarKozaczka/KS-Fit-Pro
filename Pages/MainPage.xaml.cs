@@ -1,27 +1,34 @@
-﻿namespace KS_Fit_Pro;
+﻿#if ANDROID
+using BLE.Client.Droid.Helpers;
+using KS_Fit_Pro.Source;
+#endif
+using KS_Fit_Pro.Source;
+
+namespace KS_Fit_Pro.Pages;
 
 public partial class MainPage : ContentPage
 {
     BeltController _beltController;
 
+    //public MainPage()
+    //{
 
-    public MainPage()
+    //}
+    public MainPage(MainPageVM vm, BeltController beltController)
     {
         InitializeComponent();
-        BindingContext = new MainPageVM();
-        _beltController = new BeltController();
+        BindingContext = vm;
+        _beltController = beltController;
+        
     }
 
     private async void OnConnectClicked(object sender, EventArgs e)
     {
-        if (DeviceInfo.Platform == DevicePlatform.Android)
-        {
-            var status = await Permissions.RequestAsync<BlePermision>();
-        }
-
-
-        var result = await _beltController._connector.AutoConnect();
-        if (result) (sender as Button).BackgroundColor = Color.Parse("green");
+#if ANDROID
+        await Permissions.RequestAsync<BlePermision>();
+#endif
+        // result = await _beltController._bleConnector.AutoScan();
+        //if (result) (sender as Button).BackgroundColor = Color.Parse("green");
     }
 
     private void OnSliderValueChanged(object sender, ValueChangedEventArgs e)
