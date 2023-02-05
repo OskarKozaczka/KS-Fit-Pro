@@ -1,23 +1,21 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="KS_Fit_Pro.Pages.ConnectionPage">
+             x:Class="KS_Fit_Pro.Pages.ConnectionPage"
+             NavigationPage.HasNavigationBar="False">
     <ContentPage.Content>
-        <Grid>
-            <Grid>
-                <Label Text="Devices"></Label>
-            </Grid>
-            <Grid>
-                <CollectionView Grid.Row="2" Grid.ColumnSpan="2"
-                        ItemsSource="{Binding devices}">
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate>
-                            <Label Text="{Binding Name}"></Label>
+        <StackLayout Margin="40">
+            <Label Text="Devices Found:" FontSize="Title" HorizontalOptions="Center"></Label>
+            <CollectionView ItemsSource="{Binding devices}" x:Name="devicesList" HorizontalOptions="Center">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout HorizontalOptions="Center">
+                            <Button Margin="10" Text="{Binding Name }" Clicked="Button_Clicked" HorizontalOptions="Center"></Button>
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </StackLayout>
 
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
-            </Grid>
-             </Grid>
     </ContentPage.Content>
   </ContentPage>

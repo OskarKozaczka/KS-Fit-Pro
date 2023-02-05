@@ -1,76 +1,92 @@
-﻿using Plugin.BLE;
+﻿using Microsoft.Maui.Controls;
+using Plugin.BLE;
 using Plugin.BLE.Abstractions;
 using Plugin.BLE.Abstractions.Contracts;
 using Plugin.BLE.Abstractions.EventArgs;
 using Plugin.BLE.Abstractions.Exceptions;
+using System;
 using System.Collections.ObjectModel;
 
 namespace KS_Fit_Pro.Source
 {
     public class BLEConnector
     {
-        private IBluetoothLE ble;
         public IAdapter adapter;
         public ICharacteristic StatusCharacteristic;
         private ICharacteristic RequestCharacteristic;
-        bool isConnected = false;
+        public bool isConnected = false;
         public ObservableCollection<IDevice> devices = new ObservableCollection<IDevice>();
+        private Guid lastDeviceID;
+        public event EventHandler OnMessageReceived;
 
         public BLEConnector()
         {
-
-            ble = CrossBluetoothLE.Current;
             adapter = CrossBluetoothLE.Current.Adapter;
-            //adapter.DeviceDiscovered += GetCharacteristics;
-            adapter.DeviceDiscovered += ListDevice;
-            AutoScan();
+            TryRecconect();
         }
 
-        private void ListDevice(object sender, DeviceEventArgs e)
+        private async void TryRecconect()
         {
-            devices.Add(e.Device);
+            var loadedID = await SecureStorage.Default.GetAsync("lastDevice");
+            lastDeviceID = loadedID != null ? Guid.Parse(loadedID) : Guid.Empty;
+            if (lastDeviceID == Guid.Empty) return; 
+
+            var device =  await adapter.ConnectToKnownDeviceAsync(lastDeviceID);
+            await Connect(device);
         }
 
-        //async void GetCharacteristics(object sender, DeviceEventArgs args)
-        //{
-        //    if (args.Device.Name != "KS-F0") return;
-
-        //    try
-        //    {
-        //        await adapter.ConnectToDeviceAsync(args.Device);
-        //    }
-        //    catch (DeviceConnectionException ex)
-        //    {
-        //        throw new DeviceConnectionException(args.Device.Id, args.Device.Name, ex.Message);
-        //    }
-
-        //    isConnected = true;
-
-        //    foreach (var service in args.Device.GetServicesAsync().Result)
-        //    {
-        //        var chars = await service.GetCharacteristicsAsync();
-        //        foreach (var characteristic in chars)
-        //        {
-        //            if (characteristic.Id.ToString().Split('-')[0] == "0000fe01") StatusCharacteristic = characteristic;
-        //            if (characteristic.Id.ToString().Split('-')[0] == "0000fe02") RequestCharacteristic = characteristic;
-        //        }
-        //    }
-
-        //    //StatusCharacteristic.ValueUpdated += MessageReceived;
-        //    await StatusCharacteristic.StartUpdatesAsync();
-        //}
-
-        async internal Task<bool> AutoScan()
+        async internal Task SendMessage(byte[] request)
         {
-            adapter.ScanMode = ScanMode.LowLatency;
-            adapter.ScanTimeout = 10000;
-            await adapter.StartScanningForDevicesAsync();
+            if (!isConnected) return;
+
+            await RequestCharacteristic.WriteAsync(request);
+            Thread.Sleep(1000);
+        }
+
+        internal async Task<bool> Connect(IDevice device)
+        {
+            try
+            {
+                await adapter.ConnectToDeviceAsync(device);
+            }
+            catch (DeviceConnectionException ex)
+            {
+                throw new DeviceConnectionException(device.Id, device.Name, ex.Message);
+            }
+
+            var result = await GetCharacteristics(device);
+            if(result)
+            {
+                StatusCharacteristic.ValueUpdated += MessageReceived;
+                bool isConnected = true;
+                lastDeviceID = device.Id;
+                await SecureStorage.Default.SetAsync("lastDevice", lastDeviceID.ToString());
+            }
             return isConnected;
         }
 
-        async internal Task<bool> SendMessage(byte[] request)
+        public void MessageReceived(object sender, CharacteristicUpdatedEventArgs e)
         {
-            return await RequestCharacteristic.WriteAsync(request);
+            OnMessageReceived?.Invoke(this, e);
+        }
+
+        async Task<bool> GetCharacteristics(IDevice device)
+        {
+            if (device.Name != "KS-F0") return false;
+
+            foreach (var service in device.GetServicesAsync().Result)
+            {
+                var characteristics = await service.GetCharacteristicsAsync();
+                foreach (var characteristic in characteristics)
+                {
+                    if (characteristic.Id.ToString().Split('-')[0] == "0000fe01") StatusCharacteristic = characteristic;
+                    if (characteristic.Id.ToString().Split('-')[0] == "0000fe02") RequestCharacteristic = characteristic;
+                }
+            }
+
+            if (StatusCharacteristic == null || RequestCharacteristic == null) return false;
+            await StatusCharacteristic.StartUpdatesAsync();
+            return true;
         }
     }
 }

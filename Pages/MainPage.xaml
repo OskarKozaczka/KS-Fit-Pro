@@ -2,7 +2,8 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="KS_Fit_Pro.Pages.MainPage"
-             xmlns:local ="clr-namespace:KS_Fit_Pro.Pages">
+             xmlns:local ="clr-namespace:KS_Fit_Pro.Pages"
+             NavigationPage.HasNavigationBar="False">
 
     <ScrollView>
         <VerticalStackLayout
@@ -11,25 +12,31 @@
             VerticalOptions="Center">
 
             <Label
-                Text="{Binding beltSpeed, StringFormat='Belt Speed: {0}'}"
+                Text="{Binding BeltSpeed, StringFormat='Belt Speed: {0}'}"
                 SemanticProperties.HeadingLevel="Level1"
                 FontSize="32"
                 HorizontalOptions="Center" />
 
             <Label
-                Text="{Binding activityDistance, StringFormat='Distance: {0}'}"
+                Text="{Binding ActivityDistance, StringFormat='Distance: {0}'}"
                 SemanticProperties.HeadingLevel="Level1"
                 FontSize="32"
                 HorizontalOptions="Center" />
 
             <Label
-                Text="{Binding steps, StringFormat='Steps: {0}'}"
+                Text="{Binding Steps, StringFormat='Steps: {0}'}"
                 SemanticProperties.HeadingLevel="Level1"
                 FontSize="32"
                 HorizontalOptions="Center" />
 
             <Label
-                Text="{Binding activityTime, StringFormat='Time: {0}'}"
+                Text="{Binding ActivityTime, StringFormat='Time: {0}'}"
+                SemanticProperties.HeadingLevel="Level1"
+                FontSize="32"
+                HorizontalOptions="Center" />
+
+            <Label
+                Text="{Binding Calories, StringFormat='Calories: {0}'}"
                 SemanticProperties.HeadingLevel="Level1"
                 FontSize="32"
                 HorizontalOptions="Center" />
@@ -37,23 +44,33 @@
             <Slider x:Name="speedSlider" Maximum="12" ValueChanged="OnSliderValueChanged" />
 
             <Label BindingContext="{x:Reference speedSlider}"
-               Text="{Binding Value, StringFormat='{0:F1}'}"
+               Text="{Binding SliderSpeedValue, StringFormat='{0:F1}'}"
                Grid.Row="4" Grid.Column="1"
                VerticalTextAlignment="Center"
                HorizontalOptions="Center"/>
-            
-            <HorizontalStackLayout HorizontalOptions="Center" Spacing="25">
-                <Button
-                    x:Name="ConnBtn"
-                    Text="Connect"
-                    Clicked="OnConnectClicked"
-                    HorizontalOptions="Center" />
 
+            <HorizontalStackLayout HorizontalOptions="Center" Spacing="25">
                 <Button
                     x:Name="Start"
                     Text="Start"
                     Clicked="OnStartClicked"
                     HorizontalOptions="Center" />
+
+                <Button
+                    x:Name="Pause"
+                    Text="Pause"
+                    Clicked="OnPauseClicked"
+                    HorizontalOptions="Center" />
+
+                <Button
+                    x:Name="Stop"
+                    Text="Stop"
+                    Clicked="OnStopClicked"
+                    HorizontalOptions="Center" />
+            </HorizontalStackLayout>
+            <HorizontalStackLayout HorizontalOptions="Center" Spacing="25">
+                <Label Text="Automatic Mode" VerticalOptions="Center"></Label>
+                <Switch IsToggled="{Binding AutoMode}" VerticalOptions="Center" Toggled="OnToggled"/>
             </HorizontalStackLayout>
 
         </VerticalStackLayout>

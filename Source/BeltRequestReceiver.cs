@@ -6,12 +6,12 @@
         {
             return new BeltState()
             {
-                beltMode = (BeltMode)Convert.ToInt32(message[2]),
-                beltSpeed = Convert.ToInt32(message[3]),
-                manualMode = Convert.ToInt32(message[4]) == 1 ? true : false,
-                activityTime = GetTime(message),
-                activityDistance = GetDistance(message),
-                steps = GetSteps(message)
+                BeltMode = (BeltMode)Convert.ToInt32(message[2]),
+                BeltSpeed = Convert.ToInt32(message[3]),
+                ManualMode = Convert.ToInt32(message[4]) == 1 ? true : false,
+                ActivityTime = GetTime(message),
+                ActivityDistance = GetDistance(message),
+                Steps = GetSteps(message)
             };
         }
 

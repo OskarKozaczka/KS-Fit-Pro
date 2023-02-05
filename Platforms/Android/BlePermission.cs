@@ -13,8 +13,6 @@
         (Android.Manifest.Permission.BluetoothConnect, true),
         (Android.Manifest.Permission.BluetoothAdvertise, true),
         (Android.Manifest.Permission.AccessBackgroundLocation, true),
-        (Android.Manifest.Permission.ReadExternalStorage, true),
-        (Android.Manifest.Permission.WriteExternalStorage, true),
             }.ToArray();
     }
 }

@@ -4,21 +4,24 @@ namespace KS_Fit_Pro.Source
 {
     public class BeltController
     {
-        BeltState currentBeltState;
+        public BeltState CurrentBeltState;
+        public BeltState? LastBeltState;
 
         public readonly BLEConnector _bleConnector;
         private readonly BeltRequestReceiver _receiver;
+        public event EventHandler OnMessageReceived;
 
         public BeltController(BLEConnector bleConnector, BeltRequestReceiver receiver)
         {
             _bleConnector = bleConnector;
             _receiver = receiver;
-            //bleConnector.StatusCharacteristic.ValueUpdated += MessageReceived;
+            _bleConnector.OnMessageReceived += OnMessageReceived;
         }
 
         internal void MessageReceived(object sender, CharacteristicUpdatedEventArgs e)
         {
-            currentBeltState = _receiver.GetBeltStateFromMessage(e.Characteristic.Value);
+            CurrentBeltState = _receiver.GetBeltStateFromMessage(e.Characteristic.Value);
+            if (LastBeltState != null) CurrentBeltState += LastBeltState;
         }
 
         public async Task SetSpeed(int speed)
@@ -30,6 +33,22 @@ namespace KS_Fit_Pro.Source
         internal async Task Start()
         {
             var message = BeltRequestHelper.GetEncodedMessage(EnBeltAction.START, 1);
+            await _bleConnector.SendMessage(message);
+        }
+
+        internal void ResetState()
+        {
+            CurrentBeltState = new BeltState();
+        }
+
+        internal void SaveLastState()
+        {
+            LastBeltState = CurrentBeltState;
+        }
+
+        internal async Task SetMode(BeltMode mode)
+        {
+            var message = BeltRequestHelper.GetEncodedMessage(EnBeltAction.SWITCH_MODE, (int)mode);
             await _bleConnector.SendMessage(message);
         }
     }

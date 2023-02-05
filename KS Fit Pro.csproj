@@ -52,11 +52,21 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Resources\Images\list.svg" />
+	  <None Remove="Resources\Images\run.svg" />
+	  <None Remove="Resources\Images\settings.svg" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <PackageReference Include="Autofac" Version="6.5.0" />
+	  <PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0" />
 	  <PackageReference Include="Plugin.BLE" Version="3.0.0-beta.2" />
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="Pages\ActivityRecordsPage.xaml.cs">
+	    <DependentUpon>ActivityRecordsPage.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Pages\App.xaml.cs">
 	    <DependentUpon>App.xaml</DependentUpon>
 	  </Compile>
@@ -66,7 +76,16 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="Pages\ActivityRecordsPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Pages\ConnectionPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\OptionsPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\RecordDetailsPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>

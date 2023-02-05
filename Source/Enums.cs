@@ -1,13 +1,13 @@
 ﻿namespace KS_Fit_Pro.Source
 {
-    enum BeltMode
+    public enum BeltMode
     {
         AUTO = 0,
         MANUAL = 1,
         STANDBY = 2
     }
 
-    enum EnBeltAction
+    public enum EnBeltAction
     {
         GET_STATUS = 0,
         CHANGE_SPEED = 1,

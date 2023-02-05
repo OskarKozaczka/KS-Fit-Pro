@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="KS_Fit_Pro.Pages.OptionsPage"
+             NavigationPage.HasNavigationBar="False">
+    <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center">
+        <HorizontalStackLayout>
+            <Label Text="Weight:" VerticalOptions="Center" FontSize="Large"></Label>
+            <Entry x:Name ="WeightEntry" FontSize="Large" Keyboard="Numeric" Text="{Binding Weight, Mode=TwoWay}" VerticalOptions="Center" Margin="20" MinimumWidthRequest="20" ClearButtonVisibility="WhileEditing"></Entry>
+            </HorizontalStackLayout>
+    </VerticalStackLayout>
+</ContentPage>
