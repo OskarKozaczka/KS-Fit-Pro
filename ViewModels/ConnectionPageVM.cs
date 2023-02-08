@@ -18,6 +18,8 @@ namespace KS_Fit_Pro.ViewModels
 
         public bool isConnected { get; set; }
 
+        public IDevice ConnectedDevice { get; set; }
+
         public ConnectionPageVM(BLEConnector bLEConnector)
         {
             _connector = bLEConnector;
@@ -25,7 +27,7 @@ namespace KS_Fit_Pro.ViewModels
             //devices.Add(new DiscoveredDevice() { Name = "Tesasdasdt1" });
             //devices.Add(new DiscoveredDevice() { Name = "Test2" });
             //devices.Add(new DiscoveredDevice() { Name = "Testasdasdasdasdasdasd3" });
-            _connector.adapter.DeviceDiscovered += AddDevice;        
+            _connector.adapter.DeviceDiscovered += AddDevice;
         }
         private void AddDevice(object sender, DeviceEventArgs e)
         {
@@ -37,14 +39,13 @@ namespace KS_Fit_Pro.ViewModels
 
         internal async Task<bool> ButtonClicked(IDevice device)
         {
-            if (isConnected) return false;
             return await _connector.Connect(device);
         }
 
-        internal async void StartScan()
+        internal async Task StartScan()
         {
 #if ANDROID
-        await Permissions.RequestAsync<BlePermision>();
+            await Permissions.RequestAsync<BlePermision>();
 #endif
             await  _connector.adapter.StartScanningForDevicesAsync();
         }

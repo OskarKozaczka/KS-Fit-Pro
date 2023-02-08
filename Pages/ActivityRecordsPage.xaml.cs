@@ -1,4 +1,4 @@
-using KS_Fit_Pro.Source;
+using KS_Fit_Pro.Models;
 using KS_Fit_Pro.ViewModels;
 using Microsoft.Maui.Controls;
 using Plugin.BLE.Abstractions.Contracts;
@@ -25,7 +25,7 @@ public partial class ActivityRecordsPage : ContentPage
 
     async void GoToDetails(object sender, EventArgs args)
     {
-        var button = sender as Button;
-        await Navigation.PushAsync(new RecordDetailsPage(new RecordDetailsPageVM(button.BindingContext as Activity)));
+        var record = sender as StackLayout;
+        await Navigation.PushAsync(new RecordDetailsPage(new RecordDetailsPageVM(record.BindingContext as Activity)));
     }
 }

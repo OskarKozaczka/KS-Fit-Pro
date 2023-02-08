@@ -1,5 +1,7 @@
-﻿using KS_Fit_Pro.Source;
+﻿using KS_Fit_Pro.Models;
+using KS_Fit_Pro.Source;
 using Microsoft.Maui.ApplicationModel;
+using Plugin.BLE.Abstractions.EventArgs;
 using static Microsoft.Maui.ApplicationModel.Permissions;
 
 namespace KS_Fit_Pro.ViewModels
@@ -13,19 +15,27 @@ namespace KS_Fit_Pro.ViewModels
         public int Calories { get; set; }
         public int SliderSpeedValue { get; set; }
         public bool AutoMode { get; set; }
+        public bool IsConnecting { get; set; }
 
         private readonly BeltController _beltController;
         private readonly ActivityRecordsPageVM _activitiesVM;
         private readonly CaloriesCalculator _calCalc;
-
-        public MainPageVM(BeltController beltController, ActivityRecordsPageVM activitiesVM, CaloriesCalculator calCalc)
+        private readonly BLEConnector _ble;
+        public MainPageVM(BeltController beltController, ActivityRecordsPageVM activitiesVM, CaloriesCalculator calCalc, BLEConnector ble)
         {
             _beltController = beltController;
-            _beltController.OnMessageReceived += UpdateValues;
             _activitiesVM = activitiesVM;
             _calCalc = calCalc;
+            _ble = ble;
+            _ble.OnMessageReceived += UpdateValues;
+            _ble.OnDeviceConnected += OnConnected;
+             IsConnecting = true;
         }
 
+        private void OnConnected(object sender, DeviceEventArgs e)
+        {
+            IsConnecting = false;
+        }
         private void UpdateValues(object sender, EventArgs e)
         {
             BeltSpeed= _beltController.CurrentBeltState.BeltSpeed;
@@ -62,6 +72,14 @@ namespace KS_Fit_Pro.ViewModels
         {
             await _beltController.SetSpeed(0);
 
+            SaveRecord();
+            _beltController.ResetState();
+        }
+
+        private void SaveRecord()
+        {
+            if (ActivityTime < new TimeSpan(0, 0, 5)) return;
+
             var activity = new Activity()
             {
                 TotalDistance = ActivityDistance,
@@ -74,7 +92,6 @@ namespace KS_Fit_Pro.ViewModels
             };
 
             _activitiesVM.ActivityRecords.Add(activity);
-            _beltController.ResetState();
         }
 
         internal async void OnToggled(bool value)

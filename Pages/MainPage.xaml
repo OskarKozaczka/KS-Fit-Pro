@@ -4,21 +4,19 @@
              x:Class="KS_Fit_Pro.Pages.MainPage"
              xmlns:local ="clr-namespace:KS_Fit_Pro.Pages"
              NavigationPage.HasNavigationBar="False">
-
-    <ScrollView>
-        <VerticalStackLayout
+    <VerticalStackLayout
             Spacing="25"
             Padding="30,0"
             VerticalOptions="Center">
-
-            <Label
-                Text="{Binding BeltSpeed, StringFormat='Belt Speed: {0}'}"
+        <ActivityIndicator IsRunning="{Binding IsConnecting}" Color="{DynamicResource Primary}" />
+        <Label
+                Text="{Binding BeltSpeed, StringFormat='Belt Speed: {0}km/h'}"
                 SemanticProperties.HeadingLevel="Level1"
                 FontSize="32"
                 HorizontalOptions="Center" />
 
             <Label
-                Text="{Binding ActivityDistance, StringFormat='Distance: {0}'}"
+                Text="{Binding ActivityDistance, StringFormat='Distance: {0}m'}"
                 SemanticProperties.HeadingLevel="Level1"
                 FontSize="32"
                 HorizontalOptions="Center" />
@@ -74,6 +72,4 @@
             </HorizontalStackLayout>
 
         </VerticalStackLayout>
-    </ScrollView>
-
 </ContentPage>

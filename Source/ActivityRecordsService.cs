@@ -1,4 +1,5 @@
 ﻿using System.Xml.Serialization;
+using KS_Fit_Pro.Models;
 
 namespace KS_Fit_Pro.Source
 {
@@ -12,7 +13,11 @@ namespace KS_Fit_Pro.Source
 
             try
             {
-                records = await ReadFromXmlFile<List<Activity>>(GetFilePath());
+                if (File.Exists(GetFilePath()))
+                {
+                    records = await ReadFromXmlFile<List<Activity>>(GetFilePath());
+                }
+                
             }
             catch(Exception ex) { }
             return records;
@@ -62,19 +67,5 @@ namespace KS_Fit_Pro.Source
                 if (reader != null) reader.Close();
             }
         }
-
-
-
-    }
-
-    public class Activity
-    {
-        public DateTime ActivityDate { get; set; }
-        public int TotalDistance { get; set; }
-        public TimeSpan TotalTime { get; set; }
-        public int TotalCalories { get; set; }
-        public int TotalSteps { get; set; }
-        public float AverageSpeed { get; set; }
-        public List<int> SpeedHistory;
     }
 }

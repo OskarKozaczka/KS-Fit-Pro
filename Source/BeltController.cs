@@ -1,4 +1,5 @@
-﻿using Plugin.BLE.Abstractions.EventArgs;
+﻿using KS_Fit_Pro.Models;
+using Plugin.BLE.Abstractions.EventArgs;
 
 namespace KS_Fit_Pro.Source
 {
@@ -9,13 +10,12 @@ namespace KS_Fit_Pro.Source
 
         public readonly BLEConnector _bleConnector;
         private readonly BeltRequestReceiver _receiver;
-        public event EventHandler OnMessageReceived;
 
         public BeltController(BLEConnector bleConnector, BeltRequestReceiver receiver)
         {
             _bleConnector = bleConnector;
             _receiver = receiver;
-            _bleConnector.OnMessageReceived += OnMessageReceived;
+            _bleConnector.OnMessageReceived += MessageReceived;
         }
 
         internal void MessageReceived(object sender, CharacteristicUpdatedEventArgs e)

@@ -1,4 +1,5 @@
-﻿using KS_Fit_Pro.ViewModels;
+﻿using KS_Fit_Pro.Models;
+using KS_Fit_Pro.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;

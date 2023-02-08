@@ -4,9 +4,13 @@
              x:Class="KS_Fit_Pro.Pages.OptionsPage"
              NavigationPage.HasNavigationBar="False">
     <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center">
-        <HorizontalStackLayout>
+        <HorizontalStackLayout HorizontalOptions="Center">
             <Label Text="Weight:" VerticalOptions="Center" FontSize="Large"></Label>
-            <Entry x:Name ="WeightEntry" FontSize="Large" Keyboard="Numeric" Text="{Binding Weight, Mode=TwoWay}" VerticalOptions="Center" Margin="20" MinimumWidthRequest="20" ClearButtonVisibility="WhileEditing"></Entry>
-            </HorizontalStackLayout>
+            <Entry x:Name ="WeightEntry" FontSize="Large" Keyboard="Numeric" Text="{Binding Weight, Mode=TwoWay}" VerticalOptions="Center" Margin="20" MinimumWidthRequest="35"></Entry>
+        </HorizontalStackLayout>
+        <HorizontalStackLayout HorizontalOptions="Center">
+            <Label VerticalOptions="Center" Text="Dark Mode:" FontSize="Large"></Label>
+            <Switch VerticalOptions="Center" Margin="20" Toggled="OnThemeSwitchToggled" ></Switch>
+        </HorizontalStackLayout>
     </VerticalStackLayout>
 </ContentPage>

@@ -1,4 +1,4 @@
-﻿namespace KS_Fit_Pro.Source
+﻿namespace KS_Fit_Pro.Models
 {
     public class BeltState
     {
@@ -8,7 +8,7 @@
         public TimeSpan ActivityTime { get; set; }
         public int ActivityDistance { get; set; }
         public int Steps { get; set; }
-        public float AvgSpeed { get { return SpeedHistory.Sum() / SpeedHistory.Count; }}
+        public float AvgSpeed { get { return SpeedHistory.Sum() / SpeedHistory.Count; } }
         public List<int> SpeedHistory { get; set; }
 
         public BeltState() { }
@@ -17,10 +17,10 @@
         {
             BeltMode = beltMode;
             BeltSpeed = beltSpeed;
-            ActivityTime= time;
+            ActivityTime = time;
             ActivityDistance = distance;
             Steps = steps;
-            SpeedHistory= speedHistory;
+            SpeedHistory = speedHistory;
         }
 
         public static BeltState operator +(BeltState a, BeltState b)

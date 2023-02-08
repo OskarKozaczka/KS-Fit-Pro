@@ -16,8 +16,9 @@ namespace KS_Fit_Pro.Source
         private ICharacteristic RequestCharacteristic;
         public bool isConnected = false;
         public ObservableCollection<IDevice> devices = new ObservableCollection<IDevice>();
-        private Guid lastDeviceID;
-        public event EventHandler OnMessageReceived;
+        public Guid lastDeviceID;
+        public event EventHandler<CharacteristicUpdatedEventArgs> OnMessageReceived;
+        public event EventHandler<DeviceEventArgs> OnDeviceConnected;
 
         public BLEConnector()
         {
@@ -59,6 +60,10 @@ namespace KS_Fit_Pro.Source
             {
                 StatusCharacteristic.ValueUpdated += MessageReceived;
                 bool isConnected = true;
+
+                var eventArgs = new DeviceEventArgs();
+                eventArgs.Device = device;
+                OnDeviceConnected?.Invoke(this, eventArgs);
                 lastDeviceID = device.Id;
                 await SecureStorage.Default.SetAsync("lastDevice", lastDeviceID.ToString());
             }

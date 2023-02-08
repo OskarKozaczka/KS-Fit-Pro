@@ -21,12 +21,12 @@ public partial class AppTabbedPage
         this.vm = vm;
     }
 
-    private void CurrentPageHasChanged(object sender, EventArgs e)
+    private async void CurrentPageHasChanged(object sender, EventArgs e)
     {
         var tabbedPage = (TabbedPage)sender;
         Title = tabbedPage.CurrentPage.Title;
 
-        if (Title == "Connection") vm.StartScan();
+        if (Title == "Connection") await vm.StartScan();
         else vm.StopScan();
     }
 

@@ -1,4 +1,6 @@
-﻿namespace KS_Fit_Pro.Source
+﻿using KS_Fit_Pro.Models;
+
+namespace KS_Fit_Pro.Source
 {
     internal static class BeltRequestHelper
     {

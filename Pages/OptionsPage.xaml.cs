@@ -12,4 +12,8 @@ public partial class OptionsPage : ContentPage
         BindingContext = vm;
         WeightEntry.Completed += vm.Save;
     }
+    void OnThemeSwitchToggled(object sender, ToggledEventArgs e)
+    {
+        vm.SwitchMode(e.Value);
+    }
 }

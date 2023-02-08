@@ -17,12 +17,9 @@ public partial class ConnectionPage : ContentPage
         vm = ViewModel;
     }
     
-
-
     private async void Button_Clicked(object sender, EventArgs e)
     {
         var succes = await vm.ButtonClicked((IDevice)((Button)sender).BindingContext);
         if (succes) ((Button)sender).BackgroundColor = Color.Parse("green");
-
     }
 }

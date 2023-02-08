@@ -1,4 +1,5 @@
-﻿using KS_Fit_Pro.Source;
+﻿using KS_Fit_Pro.Models;
+using KS_Fit_Pro.Source;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 
@@ -22,6 +23,7 @@ namespace KS_Fit_Pro.ViewModels
             ActivityRecords.Select(x => TotalTimeSum += x.TotalTime);
 
             ActivityRecords.CollectionChanged += Save;
+            //ActivityRecords.Add(new Activity() { SpeedHistory = new List<int>() { 2, 2, 2, 2, 5, 5, 5, 6, 6 } });
         }
 
         private void Save(object sender, NotifyCollectionChangedEventArgs e)

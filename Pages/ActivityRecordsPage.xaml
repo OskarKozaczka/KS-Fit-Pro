@@ -9,7 +9,7 @@
             <Label Margin="5" Text="{Binding TotalTimeSum, StringFormat='Time: {0}'}" FontSize ="20"/>
             <Label Margin="5" Text="{Binding TotalCaloriesSum, StringFormat='Calories: {0}'}" FontSize ="20" />
         </VerticalStackLayout>
-        <ScrollView x:Name="scrollView" Margin="20" Grid.Row="1">
+        <ScrollView x:Name="scrollView" Grid.Row="1">
             <VerticalStackLayout  BindableLayout.ItemsSource="{Binding ActivityRecords, Mode=Default}">
                 <BindableLayout.ItemTemplate>
                     <DataTemplate>

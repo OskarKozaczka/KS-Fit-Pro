@@ -18,25 +18,7 @@ public static class MauiProgram
 				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
 			});
 
-		builder.Services.AddSingleton<BLEConnector>();
-        builder.Services.AddSingleton<BeltController>();
-        builder.Services.AddSingleton<BeltRequestReceiver>();
-        builder.Services.AddSingleton<ActivityRecordsService>();
-        builder.Services.AddSingleton<CaloriesCalculator>();
-
-        builder.Services.AddSingleton<ActivityRecordsPage>();
-        builder.Services.AddSingleton<ActivityRecordsPageVM>();
-
-        builder.Services.AddSingleton<MainPage>();
-        builder.Services.AddSingleton<MainPageVM>();
-
-        builder.Services.AddSingleton<ConnectionPage>();
-        builder.Services.AddSingleton<ConnectionPageVM>();
-
-        builder.Services.AddSingleton<OptionsPage>();
-        builder.Services.AddSingleton<OptionsPageVM>();
-
-        builder.Services.AddSingleton<AppTabbedPage>();
+		builder.Configure();
 
         Routing.RegisterRoute("Filter", typeof(MainPage));
 

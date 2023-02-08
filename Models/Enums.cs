@@ -1,4 +1,4 @@
-﻿namespace KS_Fit_Pro.Source
+﻿namespace KS_Fit_Pro.Models
 {
     public enum BeltMode
     {
