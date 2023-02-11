@@ -14,9 +14,9 @@ namespace KS_Fit_Pro.Source
             {
                 BeltMode = (BeltMode)Convert.ToInt32(message[2]),
                 BeltSpeed = Convert.ToInt32(message[3]),
-                ManualMode = Convert.ToInt32(message[4]) == 1 ? true : false,
+                IsManualMode = Convert.ToInt32(message[4]) == 1 ? true : false,
                 ActivityTime = new TimeSpan(0,0, DecodeThreeByteValues(5)),
-                ActivityDistance = DecodeThreeByteValues(8) *10,
+                ActivityDistance = DecodeThreeByteValues(8) * 10,
                 Steps = DecodeThreeByteValues(11)
             };
         }

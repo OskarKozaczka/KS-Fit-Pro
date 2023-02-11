@@ -5,9 +5,9 @@
              NavigationPage.HasNavigationBar="False">
     <Grid Margin="20" RowDefinitions="Auto,*,Auto">
         <VerticalStackLayout HorizontalOptions="Center">
-            <Label Margin="5" Text="{Binding TotalDistanceSum, StringFormat='Distance: {0}m'}" FontSize ="20"/>
-            <Label Margin="5" Text="{Binding TotalTimeSum, StringFormat='Time: {0}'}" FontSize ="20"/>
-            <Label Margin="5" Text="{Binding TotalCaloriesSum, StringFormat='Calories: {0}'}" FontSize ="20" />
+            <Label Margin="5" Text="{Binding TotalDistanceSum, StringFormat='Total Distance: {0}m'}" FontSize ="20"/>
+            <Label Margin="5" Text="{Binding TotalTimeSum, StringFormat='Total Time: {0}'}" FontSize ="20"/>
+            <Label Margin="5" Text="{Binding TotalCaloriesSum, StringFormat='Total Calories: {0}'}" FontSize ="20" />
         </VerticalStackLayout>
         <ScrollView x:Name="scrollView" Grid.Row="1">
             <VerticalStackLayout  BindableLayout.ItemsSource="{Binding ActivityRecords, Mode=Default}">

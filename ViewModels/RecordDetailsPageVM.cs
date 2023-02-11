@@ -34,6 +34,7 @@ namespace KS_Fit_Pro.ViewModels
             }
             public void Draw(ICanvas canvas, RectF dirtyRect)
             {
+                if (this.activity == null) return;
                 var stepSizeW = dirtyRect.Width / activity.SpeedHistory.Count;
                 var stepSizeH = dirtyRect.Height / activity.SpeedHistory.Max();
 

@@ -4,7 +4,7 @@
     {
         public BeltMode BeltMode { get; set; }
         public int BeltSpeed { get; set; }
-        public bool ManualMode { get; set; }
+        public bool IsManualMode { get; set; }
         public TimeSpan ActivityTime { get; set; }
         public int ActivityDistance { get; set; }
         public int Steps { get; set; }

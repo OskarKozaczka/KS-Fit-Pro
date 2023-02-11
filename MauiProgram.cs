@@ -1,4 +1,5 @@
-﻿using KS_Fit_Pro.Pages;
+﻿using CommunityToolkit.Maui;
+using KS_Fit_Pro.Pages;
 using KS_Fit_Pro.Source;
 using KS_Fit_Pro.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,7 +13,8 @@ public static class MauiProgram
 		var builder = MauiApp.CreateBuilder();
 		builder
 			.UseMauiApp<App>()
-			.ConfigureFonts(fonts =>
+            .UseMauiCommunityToolkit()
+            .ConfigureFonts(fonts =>
 			{
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
 				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");

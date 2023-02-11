@@ -2,20 +2,30 @@
 using KS_Fit_Pro.Source;
 using Microsoft.Maui.ApplicationModel;
 using Plugin.BLE.Abstractions.EventArgs;
-using static Microsoft.Maui.ApplicationModel.Permissions;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace KS_Fit_Pro.ViewModels
 {
-    public class MainPageVM
+    public partial class MainPageVM : ObservableObject
     {
-        public int BeltSpeed { get; set; }
-        public TimeSpan ActivityTime { get; set; }
-        public int ActivityDistance { get; set; }
-        public int Steps { get; set; }
-        public int Calories { get; set; }
-        public int SliderSpeedValue { get; set; }
-        public bool AutoMode { get; set; }
-        public bool IsConnecting { get; set; }
+        [ObservableProperty]
+        public int beltSpeed;
+        [ObservableProperty]
+        public TimeSpan activityTime;
+        [ObservableProperty]
+        public int activityDistance;
+        [ObservableProperty]
+        public int steps;
+        [ObservableProperty]
+        public int calories;
+        [ObservableProperty]
+        public float sliderSpeedValue;
+        [ObservableProperty]
+        public bool autoMode;
+        [ObservableProperty]
+        public bool isConnecting;
+        [ObservableProperty]
+        public bool isRunning;
 
         private readonly BeltController _beltController;
         private readonly ActivityRecordsPageVM _activitiesVM;
@@ -42,17 +52,17 @@ namespace KS_Fit_Pro.ViewModels
             Steps = _beltController.CurrentBeltState.Steps;
             ActivityDistance = _beltController.CurrentBeltState.ActivityDistance;
             ActivityTime = _beltController.CurrentBeltState.ActivityTime;
-            AutoMode = !_beltController.CurrentBeltState.ManualMode;
+            AutoMode = !_beltController.CurrentBeltState.IsManualMode;
             Calories = _calCalc.CalculateCalories(_beltController.CurrentBeltState);
         }
 
-        internal void OnSliderValueChanged(int speed)
+        internal void OnSliderValueChanged(double speed)
         {
             var last = 0;
             var current = Interlocked.Increment(ref last);
             Task.Delay(1000).ContinueWith(async task =>
             {
-                if (current == last) await _beltController.SetSpeed(speed);
+                if (current == last) await _beltController.SetSpeed((int)speed*10);
                 task.Dispose();
             });
         }
@@ -60,17 +70,20 @@ namespace KS_Fit_Pro.ViewModels
         internal async Task OnStartClicked()
         {
              await _beltController.Start();
+            IsRunning = true;
         }
 
         internal async Task OnPauseClicked()
         {
             await _beltController.SetSpeed(0);
             _beltController.SaveLastState();
+            IsRunning = false;
         }
 
         internal async Task OnStopClicked()
         {
             await _beltController.SetSpeed(0);
+            IsRunning = false;
 
             SaveRecord();
             _beltController.ResetState();

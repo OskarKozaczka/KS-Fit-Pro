@@ -12,6 +12,13 @@ public partial class OptionsPage : ContentPage
         BindingContext = vm;
         WeightEntry.Completed += vm.Save;
     }
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        SwitchMode.IsToggled = Application.Current.PlatformAppTheme == AppTheme.Dark ? true : false;
+    }
+
     void OnThemeSwitchToggled(object sender, ToggledEventArgs e)
     {
         vm.SwitchMode(e.Value);
